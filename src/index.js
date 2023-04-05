@@ -1,9 +1,5 @@
 require('dotenv').config();
-
-/**
- * Module dependencies.
- */
-
+const ioLib = require('socket.io');
 const app = require('./app');
 const http = require('http');
 
@@ -14,11 +10,38 @@ const http = require('http');
 const port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
+
 /**
  * Create HTTP server.
  */
 
 const server = http.createServer(app);
+
+/**
+ * Create socket.io server.
+ */
+  const io = ioLib(server);
+
+  // Listen for incoming socket connections
+io.on('connection', (socket) => {
+  console.log('A user connected');
+
+  // Listen for a custom event from the client
+  socket.on('my-event', (data) => {
+    console.log(`Received data: ${data}`);
+  });
+
+  // Emit a custom event to the client
+  socket.emit('welcome', 'Welcome to the server!');
+
+  // Handle socket disconnection
+  socket.on('disconnect', () => {
+    console.log('A user disconnected');
+  });
+});
+
+
+
 
 /**
  * Listen on provided port, on all network interfaces.
