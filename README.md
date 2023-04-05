@@ -16,7 +16,7 @@ For instructions on using this repo as a template and deploying to the Adaptable
 
 All of the following instructions assume you are in the repo root directory.
 
-### 1. Install Node.js modules
+### 1. Install Node.js 
 
 ```console
 yarn
